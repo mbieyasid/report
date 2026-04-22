@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneNote Daily Planner - Premium Design</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Roboto', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 20px;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2E75B6 0%, #1E5A96 100%);
+            padding: 40px;
+            color: white;
+            text-align: center;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .date-input {
+            font-size: 16px;
+            color: white;
+            padding: 10px 15px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            cursor: pointer;
+        }
+        
+        .date-input:focus {
+            outline: none;
+            border-color: white;
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 35px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #2E75B6;
+        }
+        
+        .section-icon {
+            font-size: 28px;
+            margin-right: 12px;
+            line-height: 1;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2E75B6;
+            margin: 0;
+        }
+        
+        /* MOOD SECTION */
+        .mood-grid {
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .mood-option {
+            width: 70px;
+            height: 70px;
+            border: 3px solid #ddd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+        
+        .mood-option:hover {
+            transform: scale(1.15);
+            border-color: #2E75B6;
+            background: #f0f7ff;
+            box-shadow: 0 5px 15px rgba(46, 117, 182, 0.3);
+        }
+        
+        .mood-option.selected {
+            border-color: #2E75B6;
+            background: linear-gradient(135deg, #2E75B6 0%, #1E5A96 100%);
+            transform: scale(1.15);
+            box-shadow: 0 8px 20px rgba(46, 117, 182, 0.4);
+        }
+        
+        .mood-note {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 60px;
+            font-family: inherit;
+        }
+        
+        .mood-note:focus {
+            outline: none;
+            border-color: #2E75B6;
+            box-shadow: 0 0 8px rgba(46, 117, 182, 0.2);
+        }
+        
+        /* PRIORITY BOXES */
+        .priority-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .priority-box {
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 6px solid;
+            background: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+        
+        .priority-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .priority-box.high {
+            border-left-color: #c5504d;
+            background: linear-gradient(to right, rgba(197,80,77,0.1) 0%, rgba(197,80,77,0) 100%);
+        }
+        
+        .priority-box.medium {
+            border-left-color: #f4a419;
+            background: linear-gradient(to right, rgba(244,164,25,0.1) 0%, rgba(244,164,25,0) 100%);
+        }
+        
+        .priority-box.low {
+            border-left-color: #70ad47;
+            background: linear-gradient(to right, rgba(112,173,71,0.1) 0%, rgba(112,173,71,0) 100%);
+        }
+        
+        .priority-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        
+        .priority-box.high .priority-label {
+            color: #c5504d;
+        }
+        
+        .priority-box.medium .priority-label {
+            color: #f4a419;
+        }
+        
+        .priority-box.low .priority-label {
+            color: #70ad47;
+        }
+        
+        .priority-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 15px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 70px;
+        }
+        
+        .priority-input:focus {
+            outline: none;
+            border-color: #2E75B6;
+            box-shadow: 0 0 8px rgba(46, 117, 182, 0.2);
+        }
+        
+        /* TIMELINE */
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 15px;
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            border-left: 4px solid #2E75B6;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            background: #f0f7ff;
+            box-shadow: 0 3px 10px rgba(46, 117, 182, 0.15);
+        }
+        
+        .time {
+            font-weight: 700;
+            color: #2E75B6;
+            font-size: 14px;
+        }
+        
+        .activity-input {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+        }
+        
+        .activity-input:focus {
+            outline: none;
+            border-color: #2E75B6;
+            box-shadow: 0 0 6px rgba(46, 117, 182, 0.15);
+        }
+        
+        /* TASK LIST */
+        .task-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 3px solid #2E75B6;
+            transition: all 0.3s ease;
+        }
+        
+        .task-item:hover {
+            background: #f0f7ff;
+            box-shadow: 0 3px 10px rgba(46, 117, 182, 0.15);
+        }
+        
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        
+        .task-input {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+        }
+        
+        .task-input:focus {
+            outline: none;
+            border-color: #2E75B6;
+            box-shadow: 0 0 6px rgba(46, 117, 182, 0.15);
+        }
+        
+        /* MEETINGS */
+        .meetings-textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .meetings-textarea:focus {
+            outline: none;
+            border-color: #2E75B6;
+            box-shadow: 0 0 8px rgba(46, 117, 182, 0.2);
+        }
+        
+        /* NOTES */
+        .notes-box {
+            background: linear-gradient(135deg, #fffef0 0%, #fff9e6 100%);
+            border: 2px solid #f4a419;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 120px;
+        }
+        
+        .notes-textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+            padding: 0;
+        }
+        
+        .notes-textarea:focus {
+            outline: none;
+        }
+        
+        /* METRICS */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #2E75B6 0%, #1E5A96 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(46, 117, 182, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(46, 117, 182, 0.4);
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .metric-input {
+            font-size: 24px;
+            font-weight: 700;
+            border: none;
+            background: transparent;
+            color: white;
+            text-align: center;
+            width: 100%;
+            padding: 5px 0;
+        }
+        
+        .metric-input:focus {
+            outline: none;
+            opacity: 0.9;
+        }
+        
+        /* REFLECTION */
+        .reflection-item {
+            margin-bottom: 20px;
+        }
+        
+        .reflection-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #2E75B6;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .reflection-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .reflection-textarea:focus {
+            outline: none;
+            border-color: #2E75B6;
+            box-shadow: 0 0 8px rgba(46, 117, 182, 0.2);
+        }
+        
+        /* GRATITUDE */
+        .gratitude-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .gratitude-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 15px;
+            background: linear-gradient(135deg, #f0fff0 0%, #f5ffef 100%);
+            border-left: 4px solid #70ad47;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .gratitude-item:hover {
+            box-shadow: 0 5px 15px rgba(112, 173, 71, 0.2);
+        }
+        
+        .gratitude-number {
+            font-weight: 700;
+            color: #70ad47;
+            font-size: 16px;
+            min-width: 25px;
+        }
+        
+        .gratitude-input {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+        }
+        
+        .gratitude-input:focus {
+            outline: none;
+            border-color: #70ad47;
+            box-shadow: 0 0 6px rgba(112, 173, 71, 0.15);
+        }
+        
+        /* FOOTER */
+        .footer {
+            background: #f5f5f5;
+            padding: 25px 40px;
+            text-align: center;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .footer-text {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+        
+        .footer-text a {
+            color: #2E75B6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+        
+        /* PRINT STYLES */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+                padding: 20px;
+            }
+            
+            input, textarea {
+                border-color: #999 !important;
+            }
+            
+            .mood-option, .metric-card {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header {
+                padding: 25px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section {
+                margin-bottom: 25px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .mood-grid {
+                gap: 10px;
+            }
+            
+            .mood-option {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="header-top">
+                <div>
+                    <h1>📅 Daily Planner</h1>
+                    <p style="margin: 0; font-size: 14px; opacity: 0.95;">Struktur harian yang sempurna untuk produktivitas maksimal</p>
+                </div>
+                <input type="date" class="date-input" id="dateInput">
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            
+            <!-- MOOD SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">😊</span>
+                    <h2 class="section-title">Mood & Energy Level</h2>
+                </div>
+                
+                <div class="mood-grid">
+                    <div class="mood-option" data-mood="😢" title="Sangat Buruk">😢</div>
+                    <div class="mood-option" data-mood="😔" title="Buruk">😔</div>
+                    <div class="mood-option" data-mood="😐" title="Biasa Saja">😐</div>
+                    <div class="mood-option" data-mood="🙂" title="Baik">🙂</div>
+                    <div class="mood-option" data-mood="😄" title="Sangat Baik">😄</div>
+                </div>
+                
+                <textarea class="mood-note" placeholder="Catatan singkat tentang mood & energy Anda hari ini..."></textarea>
+            </div>
+
+            <!-- PRIORITIES SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">⭐</span>
+                    <h2 class="section-title">3 Prioritas Utama Hari Ini</h2>
+                </div>
+                
+                <div class="priority-container">
+                    <div class="priority-box high">
+                        <div class="priority-label">🔴 Prioritas 1 - PENTING</div>
+                        <textarea class="priority-input" placeholder="Tulis task prioritas pertama Anda..."></textarea>
+                    </div>
+                    
+                    <div class="priority-box medium">
+                        <div class="priority-label">🟡 Prioritas 2 - SEDANG</div>
+                        <textarea class="priority-input" placeholder="Tulis task prioritas kedua Anda..."></textarea>
+                    </div>
+                    
+                    <div class="priority-box low">
+                        <div class="priority-label">🟢 Prioritas 3 - RENDAH</div>
+                        <textarea class="priority-input" placeholder="Tulis task prioritas ketiga Anda..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TIMELINE SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">🕒</span>
+                    <h2 class="section-title">Timeline Harian</h2>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="time">06:00 - 07:00</div>
+                    <input type="text" class="activity-input" placeholder="Aktivitas pagi...">
+                </div>
+                <div class="timeline-item">
+                    <div class="time">07:00 - 09:00</div>
+                    <input type="text" class="activity-input" placeholder="Pekerjaan fokus...">
+                </div>
+                <div class="timeline-item">
+                    <div class="time">09:00 - 12:00</div>
+                    <input type="text" class="activity-input" placeholder="Tugas utama...">
+                </div>
+                <div class="timeline-item">
+                    <div class="time">12:00 - 13:00</div>
+                    <input type="text" class="activity-input" placeholder="Istirahat/Makan siang...">
+                </div>
+                <div class="timeline-item">
+                    <div class="time">13:00 - 17:00</div>
+                    <input type="text" class="activity-input" placeholder="Pekerjaan lanjutan...">
+                </div>
+                <div class="timeline-item">
+                    <div class="time">17:00 - 19:00</div>
+                    <input type="text" class="activity-input" placeholder="Aktivitas/Olahraga...">
+                </div>
+                <div class="timeline-item">
+                    <div class="time">19:00 - 22:00</div>
+                    <input type="text" class="activity-input" placeholder="Relaksasi/Tidur prep...">
+                </div>
+            </div>
+
+            <!-- TASK LIST SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">✓</span>
+                    <h2 class="section-title">Daftar Tugas</h2>
+                </div>
+                
+                <ul class="task-list">
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <input type="text" class="task-input" placeholder="Tugas 1...">
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <input type="text" class="task-input" placeholder="Tugas 2...">
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <input type="text" class="task-input" placeholder="Tugas 3...">
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <input type="text" class="task-input" placeholder="Tugas 4...">
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <input type="text" class="task-input" placeholder="Tugas 5...">
+                    </li>
+                </ul>
+            </div>
+
+            <!-- MEETINGS & DEADLINES -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">📞</span>
+                    <h2 class="section-title">Pertemuan & Deadline</h2>
+                </div>
+                <textarea class="meetings-textarea" placeholder="Catat semua meeting, call, dan deadline hari ini...&#10;Contoh:&#10;10:30 - Zoom dengan Client (link: ...)&#10;14:00 - One-on-one dengan Manager&#10;EOD - Submit report"></textarea>
+            </div>
+
+            <!-- NOTES SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">📝</span>
+                    <h2 class="section-title">Catatan Penting</h2>
+                </div>
+                <div class="notes-box">
+                    <textarea class="notes-textarea" placeholder="Tulis catatan, ide, insight, atau informasi penting..."></textarea>
+                </div>
+            </div>
+
+            <!-- METRICS SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">📊</span>
+                    <h2 class="section-title">Metrik & Tracking</h2>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">📈 Tugas Selesai</div>
+                        <input type="text" class="metric-input" value="0/0" placeholder="0/0">
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">📊 Produktivitas</div>
+                        <input type="text" class="metric-input" value="0%" placeholder="0%">
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">⏱️ Jam Fokus</div>
+                        <input type="text" class="metric-input" value="0h" placeholder="0h">
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">❤️ Kesehatan</div>
+                        <input type="text" class="metric-input" value="--" placeholder="--">
+                    </div>
+                </div>
+            </div>
+
+            <!-- REFLECTION SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">🎯</span>
+                    <h2 class="section-title">Refleksi Akhir Hari</h2>
+                </div>
+                
+                <div class="reflection-item">
+                    <div class="reflection-label">✅ Apa yang berhasil hari ini?</div>
+                    <textarea class="reflection-textarea" placeholder="Tulis pencapaian dan hal positif yang terjadi..."></textarea>
+                </div>
+                
+                <div class="reflection-item">
+                    <div class="reflection-label">❌ Apa yang bisa ditingkatkan?</div>
+                    <textarea class="reflection-textarea" placeholder="Tulis area yang perlu perbaikan atau hambatan yang dihadapi..."></textarea>
+                </div>
+                
+                <div class="reflection-item">
+                    <div class="reflection-label">💡 Insight / Pembelajaran Hari Ini</div>
+                    <textarea class="reflection-textarea" placeholder="Tulis insight, lesson learned, atau pola yang ditemukan..."></textarea>
+                </div>
+                
+                <div class="reflection-item">
+                    <div class="reflection-label">🎯 Fokus untuk Besok</div>
+                    <textarea class="reflection-textarea" placeholder="Tulis prioritas dan adjustment untuk besok berdasarkan learnings..."></textarea>
+                </div>
+            </div>
+
+            <!-- GRATITUDE SECTION -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">🙏</span>
+                    <h2 class="section-title">3 Hal yang Disyukuri (Gratitude)</h2>
+                </div>
+                
+                <div class="gratitude-list">
+                    <div class="gratitude-item">
+                        <span class="gratitude-number">1.</span>
+                        <input type="text" class="gratitude-input" placeholder="Hal pertama yang disyukuri...">
+                    </div>
+                    <div class="gratitude-item">
+                        <span class="gratitude-number">2.</span>
+                        <input type="text" class="gratitude-input" placeholder="Hal kedua yang disyukuri...">
+                    </div>
+                    <div class="gratitude-item">
+                        <span class="gratitude-number">3.</span>
+                        <input type="text" class="gratitude-input" placeholder="Hal ketiga yang disyukuri...">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <div class="footer-text">
+                <p>✨ <strong>Daily Planner Template</strong> | Designed for maximum productivity & mindfulness</p>
+                <p style="margin-top: 10px; font-size: 12px;">
+                    💡 <strong>Tips:</strong> Isi pagi sebelum kerja, update sepanjang hari, refleksi malam sebelum tidur.
+                    <br>Consistency > Perfection | Target 70-80% completion, bukan 100%
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set tanggal hari ini
+        const dateInput = document.getElementById('dateInput');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+
+        // Mood selector
+        const moods = document.querySelectorAll('.mood-option');
+        moods.forEach(mood => {
+            mood.addEventListener('click', function() {
+                moods.forEach(m => m.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Task checkbox strikethrough effect (visual only)
+        const taskCheckboxes = document.querySelectorAll('.task-checkbox');
+        taskCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const taskItem = this.closest('.task-item');
+                if (this.checked) {
+                    taskItem.style.opacity = '0.6';
+                } else {
+                    taskItem.style.opacity = '1';
+                }
+            });
+        });
+
+        // Auto-save ke localStorage (optional)
+        const inputs = document.querySelectorAll('input[type="text"], input[type="number"], textarea, input[type="date"]');
+        inputs.forEach(input => {
+            input.addEventListener('change', function() {
+                const key = `daily_planner_${this.className}`;
+                localStorage.setItem(key, this.value);
+            });
+        });
+    </script>
+</body>
+</html>
